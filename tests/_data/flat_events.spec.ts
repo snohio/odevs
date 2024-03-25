@@ -7,16 +7,22 @@ import {createCheckers} from "ts-interface-checker";
 
 describe('flat_events', () => {
 
-    const { GroupEvent } = createCheckers(GroupEventInterfaceTI);
+    const { GroupEventFlat } = createCheckers(GroupEventInterfaceTI);
     it('should return an array of events', () => {
         expect(events)
             .toBeInstanceOf(Array);
-
-        for (let i = 0; i < events.length; i++) {
-            console.log(i)
-            GroupEvent.check(events[i]);
-        }
         
+    });
+
+    it('should be of correct type', () => {
+        for (let i = 0; i < events.length; i++) {
+            const result = GroupEventFlat.strictValidate(events[i]);
+            if(result){
+                expect({index : i, result}).toBeNull();
+            } else {
+                expect(result).toBeNull();
+            }
+        }
     });
 
 
